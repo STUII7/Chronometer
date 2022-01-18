@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>chronometer app</title>
+    <style>
+*{
+    margin: 0%;
+
+}
+body{
+    background-color: rgb(16, 225, 253);
+}
+.c-body{
+    margin-left: 400px;
+    border-radius: 15px;
+    height: 500px;
+    width: 700px;
+    box-shadow: 15px 15px 35px gray;
+    background-color: blue;
+}
+
+#time{
+    color: white;
+    margin-top: 150px;
+    font-size: 110px;
+}
+button{
+    font-size: 25px;
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+    border-color: transparent;
+    width: 150px;
+    height:40px;
+    border-radius: 5px;
+
+}
+button:hover{
+    font-size: 25px;
+    cursor: pointer;
+    background-color: gray;
+    color: gainsboro;
+    border-color: transparent;
+    width: 150px;
+    height:40px;
+    border-radius: 5px;
+
+}
+    </style>
+</head>
+<body>
+
+    <div class="c-body">
+        <div class="c-time">
+            <div class="screen">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <span id="time">00:00:00:00.00</span>
+            </div> 
+            <br>
+            <br> 
+            <div class="c-btn">               
+               <button id="btn-start" style="margin-left: 120px;">start</button>                          
+               <button id="btn-stop">stop</button>                             
+               <button id="btn-reset">reset</button>                                     
+            </div>          
+        </div>        
+    </div>
+        
+    <script>
+        window.onload = () => {
+   d = 0;
+   h = 0;
+   m = 0;
+   s = 0;
+   mls = 0;
+   timeStarted = 0;
+   time = document.getElementById("time");
+   btnStart = document.getElementById("btn-start");
+   btnStop = document.getElementById("btn-stop");
+   btnReset = document.getElementById("btn-reset");
+   btnStart.addEventListener("click", start);
+   btnStop.addEventListener("click", stop);
+   btnReset.addEventListener("click", reset);
+};
+
+function write() {
+   let ht, mt, st, mlst;
+   mls++;
+
+   if (mls > 99) {
+      s++;
+      mls = 0;
+   }
+   if (s > 59) {
+      m++;
+      s = 0;
+   }
+   if (m > 59) {
+      h++;
+      m = 0;
+   }
+   if (h > 24) {
+       d++;
+       h = 0
+   };
+   
+   if (d > 7)d = 0;
+
+   mlst = ('0' + mls).slice(-2);
+   st = ('0' + s).slice(-2);
+   mt = ('0' + m).slice(-2);
+   ht = ('0' + h).slice(-2);
+   dt = ('0' + d).slice(-2)
+
+   time.innerHTML = `${dt}:${ht}:${mt}:${st}.${mlst}`;
+}
+
+function start() {
+   write();
+   timeStarted = setInterval(write, 10);
+   btnStart.removeEventListener("click", start);
+}
+
+function stop() {
+   clearInterval(timeStarted);
+   btnStart.addEventListener("click", start);
+}
+
+function reset() {
+   clearInterval(timeStarted);
+   time.innerHTML = "00:00:00:00.00"
+   d = 0;
+   h = 0;
+   m = 0;
+   s = 0;
+   mls = 0;
+   btnStart.addEventListener("click", start);
+}
+    </script>
+
+    
+</body>
+</html>
